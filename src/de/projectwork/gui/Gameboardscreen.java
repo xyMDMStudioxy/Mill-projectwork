@@ -38,7 +38,6 @@ public class Gameboardscreen extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				//System.out.println("X: " + e.getX());
 				//System.out.println("Y: " + e.getY());
-				System.out.println("Test für Github");
 				for (int i = 0; i < field.length; i++) {
 					field[i].getPressedField(e.getX(), e.getY(), getGameboardSize());
 				}
@@ -90,6 +89,7 @@ public class Gameboardscreen extends JPanel {
 						null);
 			}
 		}
+		g.drawString("Runde: ", getBoardSize() + 20, getBoardSize() + 20);
 	}
 	
 	/**

@@ -1,12 +1,10 @@
 package de.projectwork.gui;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import de.projectwork.game.Field;
@@ -20,8 +18,6 @@ import java.awt.Dimension;
  */
 public class Gamescreen implements ActionListener {
 	
-	private String font = "Courier New";
-	
 	private Game game;
 	
 	private Player playerBlack;
@@ -30,12 +26,6 @@ public class Gamescreen implements ActionListener {
 	private final Field field[] = new Field[24];
 	
 	private final Line line[] = new Line[16];
-
-	private JLabel lPlayerWhite;
-	private JLabel lPlayerBlack;
-	private JLabel lCounterGamestoneBlack;
-	private JLabel lCounterGamestoneWhite;
-	private JLabel lRoundCounter;
 	
 	//private JButton bGameEnd;			// TODO Button Spiel beenden implementieren
 	
@@ -72,7 +62,9 @@ public class Gamescreen implements ActionListener {
 
 	/**
 	 * Initialisiert den Gamebildschirm und seine enthaltenen
-	 * Komponenten.
+	 * Komponenten. Der Gamebildschirm besteht aus zwei kleineren
+	 * Bildschirmen. Der rechte ist der Gameboardscreen. Der linke
+	 * ist der Gameinfoscreen.
 	 */
 	private void initialize() {
 		/**
@@ -84,44 +76,12 @@ public class Gamescreen implements ActionListener {
 		createFields();
 		Gameboardscreen gameboardscreen = new Gameboardscreen(fGamescreen, field);
 		fGamescreen.getContentPane().add(gameboardscreen);
-		fGamescreen.setMinimumSize(new Dimension(600, 500));
+		fGamescreen.setMinimumSize(new Dimension(800, 500));
 		fGamescreen.pack();
 		fGamescreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		/**
-		 * Anzahl der bisher gespielten Runden wird ausgegeben.
-		 */
-		lRoundCounter = new JLabel("Runde: " + game.getRoundCounter());
-		fGamescreen.getContentPane().add(lRoundCounter);
-		lRoundCounter.setBounds(750, 20, 180, 30);
-		lRoundCounter.setFont(new Font(font, Font.BOLD, 24));
-		
-		/**
-		 * Werte des wei�en Spielers werden angezeigt: Anzahl verbleibender Spielsteine
-		 */
-		lPlayerWhite = new JLabel("Spieler Weiss: ");
-		fGamescreen.getContentPane().add(lPlayerWhite);
-		lPlayerWhite.setBounds(750, 70, 180, 30);
-		lPlayerWhite.setFont(new Font(font, Font.BOLD, 16));
-		lCounterGamestoneWhite = new JLabel("Anzahl Spielsteine: " + playerWhite.getCounterGamestone());
-		fGamescreen.getContentPane().add(lCounterGamestoneWhite);
-		lCounterGamestoneWhite.setBounds(750, 100, 180, 30);
-		lCounterGamestoneWhite.setFont(new Font(font, Font.BOLD, 12));
-		
-		/**
-		 * Werte des schwarzen Spielers werden angezeigt: Anzahl verbleibender Spielsteine
-		 */
-		lPlayerBlack = new JLabel("Spieler Schwarz: ");
-		fGamescreen.getContentPane().add(lPlayerBlack);
-		lPlayerBlack.setBounds(750, 270, 180, 30);
-		lPlayerBlack.setFont(new Font(font, Font.BOLD, 16));
-		lCounterGamestoneBlack = new JLabel("Anzahl Spielsteine: " + playerBlack.getCounterGamestone());
-		fGamescreen.getContentPane().add(lCounterGamestoneBlack);
-		lCounterGamestoneBlack.setBounds(750, 300, 180, 30);
-		lCounterGamestoneBlack.setFont(new Font(font, Font.BOLD, 12));
-		
-		/**
-		 *  Spiel beenden Button wird erstellt und dem Frame hinzugef�gt.
+		 *  // TODO Spiel beenden Button wird erstellt und dem Frame hinzugef�gt.
 		 */
 		/*bGameEnd = new JButton("Spiel beenden");
 		fGamescreen.getContentPane().add(bGameEnd);
@@ -129,6 +89,9 @@ public class Gamescreen implements ActionListener {
 		bGameEnd.setActionCommand("gameEnd");
 		bGameEnd.addActionListener(this);*/
 	
+		Gameinfoscreen gameinfoscreen = new Gameinfoscreen(gameboardscreen, game, playerWhite, playerBlack);
+		fGamescreen.getContentPane().add(gameinfoscreen);
+		
 		fGamescreen.setVisible(true);
 		createLines();
 	}
