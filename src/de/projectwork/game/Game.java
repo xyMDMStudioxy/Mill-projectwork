@@ -46,4 +46,9 @@ public class Game {
 			// TODO Phase 2 beginnt.
 		}
 	}
+	
+	public void setRoundCounter(int roundCounter) {
+		roundCounter++;
+		this.roundCounter = roundCounter;
+	}
 }

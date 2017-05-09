@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.projectwork.game.Field;
+import de.projectwork.game.Game;
 
 /**
  * Repräsentiert den linken Bildschirmteil des Spielbildschirms der
@@ -22,24 +23,36 @@ public class Gameboardscreen extends JPanel {
 
 	private static final long serialVersionUID = -5834887111306741006L;
 
+	private Game game;
+	
 	private JFrame fGamescreen;
+	//private Gameinfoscreen gameinfoscreen;
 	
 	private final Field field[];
 	
-	public int boardOffset = 30;
+	private int pressedField;
+	private int roundCounter;
 	
-	public Gameboardscreen(JFrame fGamescreen, Field field[]) {
+	public Gameboardscreen(JFrame fGamescreen, Field field[], Game game) {
 		this.fGamescreen = fGamescreen;
 		this.field = field;
+		this.game = game;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		// TODO mousePressed als seperate Methode.
 		fGamescreen.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//System.out.println("X: " + e.getX());
-				//System.out.println("Y: " + e.getY());
+				//System.out.println(e.getX() - 8);
+				//System.out.println(e.getY() - 30);
 				for (int i = 0; i < field.length; i++) {
-					field[i].getPressedField(e.getX(), e.getY(), getGameboardSize());
+					pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
+					if (pressedField != -1) {
+						field[i].setWhichPlayer(game);
+						roundCounter = game.getRoundCounter();
+						game.setRoundCounter(roundCounter);
+						repaint();
+						// TODO gameinfoscreen.repaint();
+					}
 				}
 			}
 		});
@@ -62,28 +75,25 @@ public class Gameboardscreen extends JPanel {
 		super.paint(g);
 		Image image = new ImageIcon(this.getClass().getResource("/gameboard2.png")).getImage();
 		setBounds(0, 0, getBoardSize(), getBoardSize());
-		g.drawImage(image, 
-				boardOffset, 
-				boardOffset, 
-				getGameboardSize(),
-				getGameboardSize(),
-				null);
+		g.drawImage(image, 0, 0, getBoardSize(), getBoardSize(), null);
 		// TODO auslagern, da Bilder bei jedem Aufruf wieder neu geladen werden --> hoher Rechenaufwand.
-		Image imageBlack = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
-		Image imageWhite = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
 		for (int i = 0; i < field.length; i++) {
 			if (field[i].getWhichPlayer() == 1) {
+				System.out.println("Drin Weiss!!!");
+				Image imageWhite = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
 				g.drawImage(imageWhite,
-						prozentToPixel(field[i].getPosx()) + boardOffset,
-						prozentToPixel(field[i].getPosy()) + boardOffset,
+						prozentToPixel(field[i].getPosx()),
+						prozentToPixel(field[i].getPosy()),
 						prozentToPixel(10),
 						prozentToPixel(10),
 						null);
 			}
 			if (field[i].getWhichPlayer() == 2) {
+				System.out.println("Drin Schwarz!!!");
+				Image imageBlack = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
 				g.drawImage(imageBlack,
-						prozentToPixel(field[i].getPosx()) + boardOffset,
-						prozentToPixel(field[i].getPosy()) + boardOffset,
+						prozentToPixel(field[i].getPosx()),
+						prozentToPixel(field[i].getPosy()),
 						prozentToPixel(10),
 						prozentToPixel(10),
 						null);
@@ -99,7 +109,7 @@ public class Gameboardscreen extends JPanel {
 	 * @return
 	 */
 	public int prozentToPixel(int pos) {
-		return getGameboardSize() * pos / 100;
+		return getBoardSize() * pos / 100;
 	}
 	
 	/**
@@ -116,12 +126,5 @@ public class Gameboardscreen extends JPanel {
 		} else {
 			return height;
 		}
-	}
-	
-	/**
-	 * @return getBoardSize() - boardOffset * 2
-	 */
-	public int getGameboardSize() {
-		return getBoardSize() - boardOffset * 2;
 	}
 }

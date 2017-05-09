@@ -1,5 +1,9 @@
 package de.projectwork.game;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 /**
  * Repräsentiert ein einzelnes Feld auf dem Mühle Spielbrett.
  * Insgesamt gibt es auf dem Mühle Spielbrett 24 Felder.
@@ -14,7 +18,7 @@ public class Field {
 	
 	private boolean occupied;
 	
-	//private Image image;
+	private Image image;
 	
 	/**
 	 * Es wird ein neues Feld erstellt.
@@ -28,7 +32,7 @@ public class Field {
 		position++;
 		this.id = position;
 		this.occupied = false;
-		this.whichPlayer = 2;			// TODO whichPlayer dynamisch belegen lassen.
+		this.whichPlayer = 0;			// TODO whichPlayer dynamisch belegen lassen.
 	}
 	
 	/**
@@ -55,14 +59,23 @@ public class Field {
 	 * Es wird entweder ein weißer oder schwarzer Spielstein gesetzt, je nachdem welcher
 	 * Spieler gerade am Zug ist.
 	 */
-	public void setGamestone(int roundCounter, Game game) {
+	/*public void setGamestone(Game game) {
 		setOccupied(true);
 		if (game.player() == 0) {
-			//image = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
-			//bField.setIcon(new ImageIcon(image));
+			image = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
+			setIcon(new ImageIcon(image));
 		} else {
-			//image = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
+			image = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
 			//bField.setIcon(new ImageIcon(image));
+		}
+	}*/
+	
+	public void setGamestone(int mousePosX, int mousePosY, Game game) {
+		setOccupied(true);
+		if (game.player() == 0)	{
+			image = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
+		} else {
+			image = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
 		}
 	}
 	

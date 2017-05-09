@@ -74,7 +74,7 @@ public class Gamescreen implements ActionListener {
 		fGamescreen = new JFrame();
 		fGamescreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createFields();
-		Gameboardscreen gameboardscreen = new Gameboardscreen(fGamescreen, field);
+		Gameboardscreen gameboardscreen = new Gameboardscreen(fGamescreen, field, game);
 		fGamescreen.getContentPane().add(gameboardscreen);
 		fGamescreen.setMinimumSize(new Dimension(800, 500));
 		fGamescreen.pack();
