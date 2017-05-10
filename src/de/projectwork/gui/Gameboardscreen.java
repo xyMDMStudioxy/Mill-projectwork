@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import de.projectwork.game.Field;
 import de.projectwork.game.Game;
+import de.projectwork.game.Line;
 
 /**
  * Repräsentiert den linken Bildschirmteil des Spielbildschirms der
@@ -22,21 +23,21 @@ import de.projectwork.game.Game;
 public class Gameboardscreen extends JPanel {
 
 	private static final long serialVersionUID = -5834887111306741006L;
-
-	private Game game;
 	
 	private JFrame fGamescreen;
-	//private Gameinfoscreen gameinfoscreen;
 	
 	private final Field field[];
+	
+	private final Line line[];
 	
 	private int pressedField;
 	private int roundCounter;
 	
-	public Gameboardscreen(JFrame fGamescreen, Field field[], Game game) {
+	public Gameboardscreen(JFrame fGamescreen, Field field[], Line line[], Game game) {
 		this.fGamescreen = fGamescreen;
 		this.field = field;
-		this.game = game;
+		this.line = line;
+		
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		// TODO mousePressed als seperate Methode.
@@ -46,11 +47,15 @@ public class Gameboardscreen extends JPanel {
 				//System.out.println(e.getY() - 30);
 				for (int i = 0; i < field.length; i++) {
 					pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
-					if (pressedField != -1) {
+					if (pressedField != -1 && field[i].isOccupied() == false) {
 						field[i].setWhichPlayer(game);
+						field[i].setOccupied(true);
 						roundCounter = game.getRoundCounter();
 						game.setRoundCounter(roundCounter);
 						repaint();
+						for (int j = 0; j < line.length; j++) {
+							line[j].checkMill();
+						}
 						// TODO gameinfoscreen.repaint();
 					}
 				}
@@ -65,7 +70,7 @@ public class Gameboardscreen extends JPanel {
 			field[i].getPressedField(e.getX(), e.getY(), getGameboardSize());
 		}
 	}*/
-	
+
 	/**
 	 * Das Mühle Spielbrett wird dynamisch dem Bildschirm angepasst und die
 	 * enthaltenen Komponenten werden neu gezeichnet. Dazu gehören die Spielsteine
@@ -79,7 +84,6 @@ public class Gameboardscreen extends JPanel {
 		// TODO auslagern, da Bilder bei jedem Aufruf wieder neu geladen werden --> hoher Rechenaufwand.
 		for (int i = 0; i < field.length; i++) {
 			if (field[i].getWhichPlayer() == 1) {
-				System.out.println("Drin Weiss!!!");
 				Image imageWhite = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
 				g.drawImage(imageWhite,
 						prozentToPixel(field[i].getPosx()),
@@ -89,7 +93,6 @@ public class Gameboardscreen extends JPanel {
 						null);
 			}
 			if (field[i].getWhichPlayer() == 2) {
-				System.out.println("Drin Schwarz!!!");
 				Image imageBlack = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
 				g.drawImage(imageBlack,
 						prozentToPixel(field[i].getPosx()),

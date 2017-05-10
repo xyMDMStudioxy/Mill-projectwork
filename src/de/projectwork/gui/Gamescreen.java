@@ -18,7 +18,7 @@ import java.awt.Dimension;
  */
 public class Gamescreen implements ActionListener {
 	
-	private Game game;
+	public Game game;
 	
 	private Player playerBlack;
 	private Player playerWhite;
@@ -74,7 +74,8 @@ public class Gamescreen implements ActionListener {
 		fGamescreen = new JFrame();
 		fGamescreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createFields();
-		Gameboardscreen gameboardscreen = new Gameboardscreen(fGamescreen, field, game);
+		createLines();
+		Gameboardscreen gameboardscreen = new Gameboardscreen(fGamescreen, field, line, game);
 		fGamescreen.getContentPane().add(gameboardscreen);
 		fGamescreen.setMinimumSize(new Dimension(800, 500));
 		fGamescreen.pack();
@@ -93,7 +94,6 @@ public class Gamescreen implements ActionListener {
 		fGamescreen.getContentPane().add(gameinfoscreen);
 		
 		fGamescreen.setVisible(true);
-		createLines();
 	}
 	
 	/**

@@ -1,9 +1,5 @@
 package de.projectwork.game;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 /**
  * Repräsentiert ein einzelnes Feld auf dem Mühle Spielbrett.
  * Insgesamt gibt es auf dem Mühle Spielbrett 24 Felder.
@@ -17,8 +13,6 @@ public class Field {
 	private int whichPlayer;
 	
 	private boolean occupied;
-	
-	private Image image;
 	
 	/**
 	 * Es wird ein neues Feld erstellt.
@@ -55,34 +49,9 @@ public class Field {
 	}
 	
 	/**
-	 * // TODO Wird die Methode setGamestone noch gebraucht?
-	 * Es wird entweder ein weißer oder schwarzer Spielstein gesetzt, je nachdem welcher
-	 * Spieler gerade am Zug ist.
-	 */
-	/*public void setGamestone(Game game) {
-		setOccupied(true);
-		if (game.player() == 0) {
-			image = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
-			setIcon(new ImageIcon(image));
-		} else {
-			image = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
-			//bField.setIcon(new ImageIcon(image));
-		}
-	}*/
-	
-	public void setGamestone(int mousePosX, int mousePosY, Game game) {
-		setOccupied(true);
-		if (game.player() == 0)	{
-			image = new ImageIcon(this.getClass().getResource("/blackGamestone.png")).getImage();
-		} else {
-			image = new ImageIcon(this.getClass().getResource("/whiteGamestone.png")).getImage();
-		}
-	}
-	
-	/**
 	 * Prüft ob ein Feld belegt ist oder frei ist.
-	 * @return true = frei
-	 * @return false = belegt
+	 * @return true = belegt
+	 * @return false = frei
 	 */
 	public boolean isOccupied() {
 		if (occupied) {
@@ -106,6 +75,10 @@ public class Field {
 	
 	public int getPosy() {
 		return posy;
+	}
+	
+	public boolean getOccupied() {
+		return occupied;
 	}
 	
 	/**
