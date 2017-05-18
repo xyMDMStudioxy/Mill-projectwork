@@ -11,10 +11,13 @@ public class Line {
 	private Field field2;
 	private Field field3;
 	
+	private boolean mill;
+	
 	public Line(Field f1, Field f2, Field f3) {
 		this.field1 = f1;
 		this.field2 = f2;
 		this.field3 = f3;
+		this.mill = false;
 	}
 	
 	/**
@@ -29,7 +32,7 @@ public class Line {
 		 */
 		if (field1.isOccupied() && field2.isOccupied() && field3.isOccupied() &&
 				field1.getWhichPlayer() == 1 && field2.getWhichPlayer() == 1 && field3.getWhichPlayer() == 1) {
-			System.out.println("Spieler Weiß hat eine Mühle");		// TODO Ausgabe durch Funktion ersetzen.
+			setMill(true);
 			return true;
 		}
 		/**
@@ -37,7 +40,7 @@ public class Line {
 		 */
 		else if (field1.isOccupied() && field2.isOccupied() && field3.isOccupied() &&
 				field1.getWhichPlayer() == 2 && field2.getWhichPlayer() == 2 && field3.getWhichPlayer() == 2) {
-			System.out.println("Spieler Schwarz hat eine Mühle");	// TODO Ausgabe durch Funktion ersetzen.
+			setMill(true);
 			return true;
 		/**
 		 * Kein Spieler hat eine Mühle gelegt.
@@ -45,5 +48,25 @@ public class Line {
 		} else {
 			return false;
 		}
+	}
+	
+	public boolean isMill() {
+		if (mill == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/*********************************************
+	 * Getter und Setter Methoden der Klasse Line.
+	 *********************************************/
+	
+	public void setMill(boolean mill) {
+		this.mill = mill;
+	}
+	
+	public boolean getMill() {
+		return mill;
 	}
 }

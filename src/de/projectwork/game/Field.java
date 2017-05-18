@@ -26,7 +26,7 @@ public class Field {
 		position++;
 		this.id = position;
 		this.occupied = false;
-		this.whichPlayer = 0;			// TODO whichPlayer dynamisch belegen lassen.
+		this.whichPlayer = 0;
 	}
 	
 	/**
@@ -59,6 +59,19 @@ public class Field {
 		} else {
 			return false;
 		}
+	}
+	
+	// TODO
+	public boolean removeGamestone(Field[] field, int boardSize) {
+		/*for (int i = 0; i < field.length; i++) {
+			field[i].getPressedField(posx, posy, boardSize);
+			if (field[i].isOccupied()) {
+				field[i].whichPlayer = 0;
+				field[i].occupied = false;
+				return true;
+			}
+		}*/
+		return false;
 	}
 	
 	/**********************************************

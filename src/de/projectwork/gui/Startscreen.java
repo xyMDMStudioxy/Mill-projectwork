@@ -72,7 +72,7 @@ public class Startscreen implements ActionListener {
 		 */
 		bGameStart = new JButton("Spiel starten");
 		fStartscreen.getContentPane().add(bGameStart);
-		bGameStart.setBounds(startscreenWidth/2 - bWidth/2, startscreenHeight/2 - bHeight/2 - 50, bWidth, bHeight);
+		bGameStart.setBounds(startscreenWidth/2 - bWidth/2, startscreenHeight/2 - bHeight/2 - 40, bWidth, bHeight);
 		bGameStart.setActionCommand("gameStart");
 		bGameStart.addActionListener(this);
 		
@@ -82,7 +82,7 @@ public class Startscreen implements ActionListener {
 		 */
 		bGameEnd = new JButton("Spiel beenden");
 		fStartscreen.getContentPane().add(bGameEnd);
-		bGameEnd.setBounds(startscreenWidth/2 - bWidth/2, startscreenHeight/2 - bHeight/2, bWidth, bHeight);
+		bGameEnd.setBounds(startscreenWidth/2 - bWidth/2, startscreenHeight/2 - bHeight/2 + 10, bWidth, bHeight);
 		bGameEnd.setActionCommand("gameEnd");
 		bGameEnd.addActionListener(this);
 		
@@ -90,7 +90,7 @@ public class Startscreen implements ActionListener {
 		 * Label mit Holz Hintergrund wird dem Frame hinzugefügt.
 		 */
 		lStartscreen = new JLabel();
-		iStartscreen = new ImageIcon(this.getClass().getResource("/startscreenBackground.jpg")).getImage();
+		iStartscreen = new ImageIcon(this.getClass().getResource("/titelBild.png")).getImage();
 		lStartscreen.setIcon(new ImageIcon(iStartscreen));
 		lStartscreen.setBounds(0, 0, startscreenWidth, startscreenHeight);
 		fStartscreen.getContentPane().add(lStartscreen);
