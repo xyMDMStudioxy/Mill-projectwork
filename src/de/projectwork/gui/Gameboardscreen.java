@@ -35,6 +35,8 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	private int pressedField;
 	private int roundCounter;
 	
+	private boolean removeGamestone = false;
+	
 	public Gameboardscreen(JFrame fGamescreen, Game game) {
 		this.fGamescreen = fGamescreen;
 		this.game = game;
@@ -57,31 +59,63 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 		for (int i = 0; i < field.length; i++) {
 			pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
-			if (pressedField != -1 && field[i].isOccupied() == false) {
-				field[i].setOccupied(true);
-				field[i].setWhichPlayer(game);
-				for (int j = 0; j < line.length; j++) {
-					// Es wurde keine Mühle gelegt.
-					if (line[j].checkMill() == false && j == 15) {
-						roundCounter = game.getRoundCounter();
-						game.setRoundCounter(roundCounter);
+			if (removeGamestone == false) {
+				if (pressedField != -1 && field[i].isOccupied() == false) {
+					field[i].setOccupied(true);
+					field[i].setWhichPlayer(game);
+					for (int j = 0; j < line.length; j++) {
+						// Es wurde keine Mühle gelegt.
+						if (line[j].checkMill() == false && j == 15) {
+							roundCounter = game.getRoundCounter();
+							game.setRoundCounter(roundCounter);
+						}
+						// Mühle war bereits vor dem letzten gesetzten Spielstein vorhanden.
+						else if (line[j].isMill() == false && line[j].checkMill() == true) {
+							//roundCounter = game.getRoundCounter();
+							//game.setRoundCounter(roundCounter);
+							System.out.println("isMill = false");
+						}
+						// Es wurde eine neue Mühle gelegt.
+						else if (line[j].isMill() == true && line[j].checkMill() == true) {
+							// TODO wird zu oft aufgerufen unterscheiden mit if?
+							//roundCounter = game.getRoundCounter();
+							//game.setRoundCounter(roundCounter);
+							//line[j].setMill(true);
+							System.out.println("Mühle");
+							removeGamestone = true;
+							break;
+						} 
 					}
-					// Es wurde eine neue Mühle gelegt.
-					else if (line[j].isMill() == false && line[j].checkMill() == true) {
-						field[i].removeGamestone(field, getBoardSize()); // TODO removeGamestone() implementieren.
-						System.out.println("isMill = false");
-					}
-					// Mühle war bereits vor dem letzten gesetzten Spielstein vorhanden.
-					else if (line[j].isMill() == true && line[j].checkMill() == true) {
-						roundCounter = game.getRoundCounter();
-						game.setRoundCounter(roundCounter);
-						System.out.println("Mühle");
-						break;
-					} 
 				}
-				repaint();
-				// TODO gameinfoscreen.repaint();
 			}
+			else {
+				// Schwarzer Spieler hat eine Mühle gelegt und darf einen Spielstein
+				// vom weißen Spieler entfernen.
+				if (pressedField != -1 && field[i].isOccupied() == true && game.player() == 0) {
+					if (field[i].getWhichPlayer() == 1 && field[i].removeGamestone(field[i]) == true ) {
+						roundCounter = game.getRoundCounter();
+						game.setRoundCounter(roundCounter);
+						removeGamestone = false;
+						/*for (int j = 0; j < line.length; j++) {
+							line[j].setMill(false);
+						}*/
+					}
+				}
+				// Weißer Spieler hat eine Mühle gelegt und darf einen Spielstein
+				// vom schwarzen Spieler entfernen.
+				else if (pressedField != -1 && field[i].isOccupied() == true && game.player() == 1) {
+					if (field[i].getWhichPlayer() == 2 && field[i].removeGamestone(field[i]) == true ) {
+						roundCounter = game.getRoundCounter();
+						game.setRoundCounter(roundCounter);
+						removeGamestone = false;
+						/*for (int j = 0; j < line.length; j++) {
+							line[j].setMill(false);
+						}*/
+					}
+				}
+			}
+			repaint();
+			// TODO gameinfoscreen.repaint();
 		}
 	}
 
