@@ -8,21 +8,25 @@ import javax.swing.JLabel;
 public class Game {
 	
 	private int roundCounter;
+	private int gamePhase;
+	private int currentPlayer;
 	
 	public Game() {
 		this.roundCounter = 0;
+		this.gamePhase = 1;
+		this.currentPlayer = 1;
 	}
-	
+
 	/**
-	 * Gibt zurück welcher Spieler gerade am Zug ist.
+	 * Wechselt den Spieler.
 	 * @return 1 = weißer Spieler
-	 * @return 0 = schwarzer Spieler
+	 * @return 2 = schwarzer Spieler
 	 */
-	public int player() {
-		if (roundCounter % 2 == 1) {
-			return 1;
+	public void changeCurrentPlayer() {
+		if (currentPlayer == 1) {
+			currentPlayer = 2;
 		} else {
-			return 0;
+			currentPlayer = 1;
 		}
 	}
 	
@@ -30,6 +34,19 @@ public class Game {
 	 * Getter und Setter Methoden der Klasse Game.
 	 *********************************************/
 	
+	/**
+	 * Gibt zurück welcher Spieler gerade am Zug ist.
+	 * @return 1 = weißer Spieler
+	 * @return 2 = schwarzer Spieler
+	 */
+	public int getCurrentPlayer() {
+		if (currentPlayer == 1) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
 	public int getRoundCounter() {
 		return roundCounter;
 	}
@@ -42,13 +59,18 @@ public class Game {
 	public void setRoundCounter(JLabel lRoundCounter) {
 		roundCounter++;
 		lRoundCounter.setText("Runde: " + getRoundCounter());
-		if (roundCounter == 18) {
-			// TODO Phase 2 beginnt.
-		}
 	}
 	
 	public void setRoundCounter(int roundCounter) {
 		roundCounter++;
 		this.roundCounter = roundCounter;
+	}
+	
+	public void setGamePhase(int gamePhase) {
+		this.gamePhase = gamePhase;
+	}
+	
+	public int getGamePhase() {
+		return gamePhase;
 	}
 }

@@ -34,6 +34,7 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	
 	private int pressedField;
 	private int roundCounter;
+	private int currentField;
 	
 	private boolean removeGamestone = false;
 	
@@ -57,66 +58,11 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	 * Mit der Methode checkMill wird überprüft ob eine Mühle gelegt wurde.
 	 */
 	public void mousePressed(MouseEvent e) {
-		for (int i = 0; i < field.length; i++) {
-			pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
-			if (removeGamestone == false) {
-				if (pressedField != -1 && field[i].isOccupied() == false) {
-					field[i].setOccupied(true);
-					field[i].setWhichPlayer(game);
-					for (int j = 0; j < line.length; j++) {
-						// Es wurde keine Mühle gelegt.
-						if (line[j].checkMill() == false && j == 15) {
-							roundCounter = game.getRoundCounter();
-							game.setRoundCounter(roundCounter);
-						}
-						// Mühle war bereits vor dem letzten gesetzten Spielstein vorhanden.
-						else if (line[j].isMill() == false && line[j].checkMill() == true) {
-							//roundCounter = game.getRoundCounter();
-							//game.setRoundCounter(roundCounter);
-							System.out.println("isMill = false");
-						}
-						// Es wurde eine neue Mühle gelegt.
-						else if (line[j].isMill() == true && line[j].checkMill() == true) {
-							// TODO wird zu oft aufgerufen unterscheiden mit if?
-							//roundCounter = game.getRoundCounter();
-							//game.setRoundCounter(roundCounter);
-							//line[j].setMill(true);
-							System.out.println("Mühle");
-							removeGamestone = true;
-							break;
-						} 
-					}
-				}
-			}
-			else {
-				// Schwarzer Spieler hat eine Mühle gelegt und darf einen Spielstein
-				// vom weißen Spieler entfernen.
-				if (pressedField != -1 && field[i].isOccupied() == true && game.player() == 0) {
-					if (field[i].getWhichPlayer() == 1 && field[i].removeGamestone(field[i]) == true ) {
-						roundCounter = game.getRoundCounter();
-						game.setRoundCounter(roundCounter);
-						removeGamestone = false;
-						/*for (int j = 0; j < line.length; j++) {
-							line[j].setMill(false);
-						}*/
-					}
-				}
-				// Weißer Spieler hat eine Mühle gelegt und darf einen Spielstein
-				// vom schwarzen Spieler entfernen.
-				else if (pressedField != -1 && field[i].isOccupied() == true && game.player() == 1) {
-					if (field[i].getWhichPlayer() == 2 && field[i].removeGamestone(field[i]) == true ) {
-						roundCounter = game.getRoundCounter();
-						game.setRoundCounter(roundCounter);
-						removeGamestone = false;
-						/*for (int j = 0; j < line.length; j++) {
-							line[j].setMill(false);
-						}*/
-					}
-				}
-			}
-			repaint();
-			// TODO gameinfoscreen.repaint();
+		if (game.getGamePhase() == 1) {
+			phase1(e);
 		}
+		repaint();
+		// TODO gameinfoscreen.repaint();
 	}
 
 	/**
@@ -130,6 +76,59 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 		setBounds(0, 0, getBoardSize(), getBoardSize());
 		g.drawImage(image, 0, 0, getBoardSize(), getBoardSize(), null);
 		setImage(g);
+	}
+	
+	public void phase1(MouseEvent e) {
+		currentField = getPressedField(e);
+		if (currentField != -1) {
+			if (removeGamestone == false) {
+				if (field[currentField].isOccupied() == false) {
+					field[currentField].setOccupied(true);
+					field[currentField].setWhichPlayer(game);
+					if (line[field[currentField].getLine1()].checkMill() == true ||
+							line[field[currentField].getLine2()].checkMill() == true) {
+						removeGamestone = true;
+						System.out.println("Mühle");
+					} else {
+						roundCounter = game.getRoundCounter();
+						game.setRoundCounter(roundCounter);
+						game.changeCurrentPlayer();
+					}
+					if (roundCounter == 17) {
+						game.setGamePhase(2);
+					}
+				}
+			}
+			else {
+				removeGamestone();
+			}
+		}
+	}
+	
+	public int getPressedField(MouseEvent e) {
+		for (int i = 0; i < field.length; i++) {
+			pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
+			if (pressedField >= 0) {
+				return pressedField;
+			}
+		}
+		return pressedField;
+	}
+	
+	public void removeGamestone() {
+		int currentPressedField = field[currentField].getWhichPlayer();
+		if (currentPressedField != 0 && currentPressedField != game.getCurrentPlayer()) {
+			if (!line[field[currentField].getLine1()].checkMill() == true ||
+					line[field[currentField].getLine2()].checkMill() == true) {
+			field[currentField].setOccupied(false);
+			field[currentField].removeGamestone();
+			roundCounter = game.getRoundCounter();
+			game.setRoundCounter(roundCounter);
+			game.changeCurrentPlayer();
+			removeGamestone = false;
+		}
+			
+		}
 	}
 	
 	/**
@@ -164,30 +163,30 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	 * siehe Beschreibung von Field: {@link de.projectwork.game.Field#Field(int, int)})	
 	 */
 	public void createFields() {
-		field[0] = new Field(0, 0);
-		field[1] = new Field(45, 0);
-		field[2] = new Field(90, 0);
-		field[3] = new Field(15, 15);
-		field[4] = new Field(45, 15);
-		field[5] = new Field(75, 15);
-		field[6] = new Field(30, 30);
-		field[7] = new Field(45, 30);
-		field[8] = new Field(60, 30);
-		field[9] = new Field(0, 45);
-		field[10] = new Field(15, 45);
-		field[11] = new Field(30, 45);
-		field[12] = new Field(60, 45);
-		field[13] = new Field(75, 45);
-		field[14] = new Field(90, 45);
-		field[15] = new Field(30, 60);
-		field[16] = new Field(45, 60);
-		field[17] = new Field(60, 60);
-		field[18] = new Field(15, 75);
-		field[19] = new Field(45, 75);
-		field[20] = new Field(75, 75);
-		field[21] = new Field(0, 90);
-		field[22] = new Field(45, 90);
-		field[23] = new Field(90, 90);
+		field[0] = new Field(0, 0, 8, 0);
+		field[1] = new Field(45, 0, 9, 0);
+		field[2] = new Field(90, 0, 10, 0);
+		field[3] = new Field(15, 15, 11, 1);
+		field[4] = new Field(45, 15, 9, 1);
+		field[5] = new Field(75, 15, 12, 1);
+		field[6] = new Field(30, 30, 13, 2);
+		field[7] = new Field(45, 30, 9, 2);
+		field[8] = new Field(60, 30, 14, 2);
+		field[9] = new Field(0, 45, 8, 3);
+		field[10] = new Field(15, 45, 11, 3);
+		field[11] = new Field(30, 45, 13, 3);
+		field[12] = new Field(60, 45, 14, 4);
+		field[13] = new Field(75, 45, 12, 4);
+		field[14] = new Field(90, 45, 10, 4);
+		field[15] = new Field(30, 60, 13, 5);
+		field[16] = new Field(45, 60, 15, 5);
+		field[17] = new Field(60, 60, 14, 5);
+		field[18] = new Field(15, 75, 11, 6);
+		field[19] = new Field(45, 75, 15, 6);
+		field[20] = new Field(75, 75, 12, 6);
+		field[21] = new Field(0, 90, 8, 7);
+		field[22] = new Field(45, 90, 15, 7);
+		field[23] = new Field(90, 90, 10, 7);
 	}
 	
 	/**

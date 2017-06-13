@@ -11,6 +11,8 @@ public class Field {
 	private static int position = -1;
 	private int id;
 	private int whichPlayer;
+	private int line1;
+	private int line2;
 	
 	private boolean occupied;
 	
@@ -20,13 +22,15 @@ public class Field {
 	 * @param posy wird als % Wert mitgegeben Bsp.: Wert 45 = 45% vom Gameboardscreen.
 	 * Verwendung: {@link de.projectwork.gui.Gamescreen#createFields()})
 	 */
-	public Field(int posx, int posy) {
+	public Field(int posx, int posy, int line1, int line2) {
 		this.posx = posx;
 		this.posy = posy;
 		position++;
 		this.id = position;
 		this.occupied = false;
 		this.whichPlayer = 0;
+		this.line1 = line1;
+		this.line2 = line2;
 	}
 	
 	/**
@@ -59,13 +63,6 @@ public class Field {
 		} else {
 			return false;
 		}
-	}
-	
-	// TODO removeGamestone() implementieren.
-	public boolean removeGamestone(Field field) {
-		field.whichPlayer = 0;
-		field.occupied = false;
-		return true;
 	}
 	
 	/**********************************************
@@ -112,15 +109,27 @@ public class Field {
 	 * @param game
 	 */
 	public void setWhichPlayer(Game game) {
-		if (game.player() == 1) {
+		if (game.getCurrentPlayer() == 1) {
 			this.whichPlayer = 1;
 		} else {
 			this.whichPlayer = 2;
 		}
 	}
 	
+	public void removeGamestone() {
+		this.whichPlayer = 0;
+	}
+	
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
+	}
+	
+	public int getLine1() {
+		return line1;
+	}
+	
+	public int getLine2() {
+		return line2;
 	}
 	
 }
