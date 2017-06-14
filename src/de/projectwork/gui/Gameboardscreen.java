@@ -78,33 +78,49 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 		setImage(g);
 	}
 	
+	/**
+	 * Repräsentiert die 1.Spielphase (Setzphase).
+	 * @param e (MouseEvent)
+	 */
 	public void phase1(MouseEvent e) {
 		currentField = getPressedField(e);
-		if (currentField != -1) {
-			if (removeGamestone == false) {
+		if (currentField != -1) {				// Wenn aktuelles Feld -1 ist dann wurde auf kein Feld geklickt.
+			if (removeGamestone == false) {		// Überprüft ob der Spieler einen Spielstein vom Gegner entfernen darf.
+				// TODO KI einbauen.
 				if (field[currentField].isOccupied() == false) {
+					// TODO KI einbauen.
 					field[currentField].setOccupied(true);
 					field[currentField].setWhichPlayer(game);
+					// Es wird überprüft ob der aktuell gelegte Spielstein auf einer 
+					// seiner beiden Verbindungslinien eine Mühle gebildet hat.
+					// ... wenn ja dann darf der Spieler einen gegnerischen Spielstein entfernen.
 					if (line[field[currentField].getLine1()].checkMill() == true ||
 							line[field[currentField].getLine2()].checkMill() == true) {
 						removeGamestone = true;
-						System.out.println("Mühle");
+					// ... wenn nein dann ist der Gegner am Zug.
 					} else {
 						roundCounter = game.getRoundCounter();
 						game.setRoundCounter(roundCounter);
 						game.changeCurrentPlayer();
 					}
+					// Leitet die 2.Spielphase ein.
 					if (roundCounter == 17) {
 						game.setGamePhase(2);
 					}
 				}
 			}
+			// Der aktuelle Spieler darf einen gegnerischen Spielstein entfernen.
 			else {
 				removeGamestone();
 			}
 		}
 	}
 	
+	/**
+	 * Überprüft welches Feld gerade geklickt wurde.
+	 * @param e MouseEvent
+	 * @return field id || -1 bei falschen Klick.
+	 */
 	public int getPressedField(MouseEvent e) {
 		for (int i = 0; i < field.length; i++) {
 			pressedField = field[i].getPressedField(e.getX(), e.getY() - 25, getBoardSize());
@@ -115,19 +131,27 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 		return pressedField;
 	}
 	
+	/**
+	 * Es wird überprüft, ob der Spieler auch einen gegnerischen Spielstein
+	 * ausgewählt hat und auf kein leeres Feld geklickt hat.
+	 * Anschließend wird überprüft, ob der gegnerische Spielstein sich in einer
+	 * Mühle befindet.
+	 * ... wenn ja dann wird der gegnerische Spielstein nicht entfernt.
+	 * ... wenn nein dann wird der gegnerische Spielstein entfernt, das Feld wird
+	 * wieder freigegeben und der Gegner ist wieder am Zug mit einem Spielstein setzen.
+	 */
 	public void removeGamestone() {
 		int currentPressedField = field[currentField].getWhichPlayer();
 		if (currentPressedField != 0 && currentPressedField != game.getCurrentPlayer()) {
 			if (!line[field[currentField].getLine1()].checkMill() == true ||
 					line[field[currentField].getLine2()].checkMill() == true) {
-			field[currentField].setOccupied(false);
-			field[currentField].removeGamestone();
-			roundCounter = game.getRoundCounter();
-			game.setRoundCounter(roundCounter);
-			game.changeCurrentPlayer();
-			removeGamestone = false;
-		}
-			
+				field[currentField].setOccupied(false);
+				field[currentField].removeGamestone();
+				roundCounter = game.getRoundCounter();
+				game.setRoundCounter(roundCounter);
+				game.changeCurrentPlayer();
+				removeGamestone = false;
+			}	
 		}
 	}
 	
@@ -159,7 +183,8 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	
 	/**
 	 * Spielfeld mit Felder wird aufgebaut und die Positionen
-	 * der Felder werden in Prozent übergeben.
+	 * der Felder werden in Prozent übergeben und die Id's der Verbindungslinien
+	 * werden übergeben.
 	 * siehe Beschreibung von Field: {@link de.projectwork.game.Field#Field(int, int)})	
 	 */
 	public void createFields() {
