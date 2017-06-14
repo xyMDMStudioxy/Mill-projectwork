@@ -42,4 +42,5 @@ public class Gamestone {
 	public void setWhite(boolean white) {
 		this.white = white;
 	}
+
 }
