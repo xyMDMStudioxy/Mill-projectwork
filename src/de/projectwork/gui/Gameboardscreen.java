@@ -60,6 +60,8 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 		if (game.getGamePhase() == 1) {
 			phase1(e);
+		} else if (game.getGamePhase() == 2) {
+			phase2(e);
 		}
 		repaint();
 		// TODO gameinfoscreen.repaint();
@@ -114,6 +116,10 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 				removeGamestone();
 			}
 		}
+	}
+	
+	public void phase2(MouseEvent e) {
+		
 	}
 	
 	/**
@@ -189,29 +195,29 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	 */
 	public void createFields() {
 		field[0] = new Field(0, 0, 8, 0);
-		field[1] = new Field(45, 0, 9, 0);
-		field[2] = new Field(90, 0, 10, 0);
-		field[3] = new Field(15, 15, 11, 1);
-		field[4] = new Field(45, 15, 9, 1);
-		field[5] = new Field(75, 15, 12, 1);
-		field[6] = new Field(30, 30, 13, 2);
-		field[7] = new Field(45, 30, 9, 2);
-		field[8] = new Field(60, 30, 14, 2);
+		field[1] = new Field(45, 0, 11, 0);
+		field[2] = new Field(90, 0, 15, 0);
+		field[3] = new Field(15, 15, 9, 1);
+		field[4] = new Field(45, 15, 11, 1);
+		field[5] = new Field(75, 15, 14, 1);
+		field[6] = new Field(30, 30, 10, 2);
+		field[7] = new Field(45, 30, 11, 2);
+		field[8] = new Field(60, 30, 13, 2);
 		field[9] = new Field(0, 45, 8, 3);
-		field[10] = new Field(15, 45, 11, 3);
-		field[11] = new Field(30, 45, 13, 3);
-		field[12] = new Field(60, 45, 14, 4);
-		field[13] = new Field(75, 45, 12, 4);
-		field[14] = new Field(90, 45, 10, 4);
-		field[15] = new Field(30, 60, 13, 5);
-		field[16] = new Field(45, 60, 15, 5);
-		field[17] = new Field(60, 60, 14, 5);
-		field[18] = new Field(15, 75, 11, 6);
-		field[19] = new Field(45, 75, 15, 6);
-		field[20] = new Field(75, 75, 12, 6);
+		field[10] = new Field(15, 45, 9, 3);
+		field[11] = new Field(30, 45, 10, 3);
+		field[12] = new Field(60, 45, 13, 4);
+		field[13] = new Field(75, 45, 14, 4);
+		field[14] = new Field(90, 45, 15, 4);
+		field[15] = new Field(30, 60, 10, 5);
+		field[16] = new Field(45, 60, 12, 5);
+		field[17] = new Field(60, 60, 13, 5);
+		field[18] = new Field(15, 75, 9, 6);
+		field[19] = new Field(45, 75, 12, 6);
+		field[20] = new Field(75, 75, 14, 6);
 		field[21] = new Field(0, 90, 8, 7);
-		field[22] = new Field(45, 90, 15, 7);
-		field[23] = new Field(90, 90, 10, 7);
+		field[22] = new Field(45, 90, 12, 7);
+		field[23] = new Field(90, 90, 15, 7);
 	}
 	
 	/**
@@ -228,13 +234,13 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 		line[6] = new Line(field[18], field[19], field[20]);
 		line[7] = new Line(field[21], field[22], field[23]);
 		line[8] = new Line(field[0], field[9], field[21]);
-		line[9] = new Line(field[1], field[4], field[7]);
-		line[10] = new Line(field[2], field[14], field[23]);
-		line[11] = new Line(field[3], field[10], field[18]);
-		line[12] = new Line(field[5], field[13], field[20]);
-		line[13] = new Line(field[6], field[11], field[15]);
-		line[14] = new Line(field[8], field[12], field[17]);
-		line[15] = new Line(field[16], field[19], field[22]);
+		line[9] = new Line(field[3], field[10], field[18]);
+		line[10] = new Line(field[6], field[11], field[15]);
+		line[11] = new Line(field[1], field[4], field[7]);
+		line[12] = new Line(field[16], field[19], field[22]);
+		line[13] = new Line(field[8], field[12], field[17]);
+		line[14] = new Line(field[5], field[13], field[20]);
+		line[15] = new Line(field[2], field[14], field[23]);
 	}
 	
 	/**
