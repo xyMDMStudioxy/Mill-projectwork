@@ -54,8 +54,7 @@ public class Field {
 	
 	/**
 	 * Pr¸ft ob ein Feld belegt ist oder frei ist.
-	 * @return true = belegt
-	 * @return false = frei
+	 * @return true = belegt || false = frei
 	 */
 	public boolean isOccupied() {
 		if (occupied) {
@@ -87,9 +86,7 @@ public class Field {
 	
 	/**
 	 * Welcher Spieler (Spielstein) ist gerade auf dem Feld. 
-	 * @return 0 = leer
-	 * @return 1 = weiﬂ
-	 * @return 2 = schwarz
+	 * @return 0 = leer || 1 = weiﬂ || 2 = schwarz
 	 */
 	public int getWhichPlayer() {
 		if (whichPlayer == 0) {
@@ -102,11 +99,11 @@ public class Field {
 	}
 	
 	/**
-	 * Wenn game.player() == 1, dann hat Spieler weiﬂ gerade einen
+	 * Wenn game.getCurrentPlayer() == 1, dann hat Spieler weiﬂ gerade einen
 	 * Spielstein auf ein Feld gelegt.
-	 * Wenn game.player() == 2, dann hat Spieler schwarz gerade einen
+	 * Wenn game.getCurrentPlayer() == 2, dann hat Spieler schwarz gerade einen
 	 * Spielstein auf ein Feld gelegt.
-	 * @param game
+	 * @param game Objekt
 	 */
 	public void setWhichPlayer(Game game) {
 		if (game.getCurrentPlayer() == 1) {
@@ -120,6 +117,10 @@ public class Field {
 		this.whichPlayer = 0;
 	}
 	
+	/**
+	 * Ein Feld wird auf belegt oder frei gesetzt.
+	 * @param occupied true = belegen || false = frei machen
+	 */
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}

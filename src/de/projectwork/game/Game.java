@@ -36,8 +36,7 @@ public class Game {
 	
 	/**
 	 * Gibt zurück welcher Spieler gerade am Zug ist.
-	 * @return 1 = weißer Spieler
-	 * @return 2 = schwarzer Spieler
+	 * @return 1 = weißer Spieler || 2 = schwarzer Spieler
 	 */
 	public int getCurrentPlayer() {
 		if (currentPlayer == 1) {
@@ -66,10 +65,18 @@ public class Game {
 		this.roundCounter = roundCounter;
 	}
 	
+	/**
+	 * Es wird eine neue Spielphase gesetzt.
+	 * @param gamePhase 1 = Setzphase || 2 = Verschiebenphase || 3 = Springphase
+	 */
 	public void setGamePhase(int gamePhase) {
 		this.gamePhase = gamePhase;
 	}
 	
+	/**
+	 * Es wird die aktuelle Spielphase bestimmt.
+	 * @param gamePhase 1 = Setzphase || 2 = Verschiebenphase || 3 = Springphase
+	 */
 	public int getGamePhase() {
 		return gamePhase;
 	}

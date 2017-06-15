@@ -23,8 +23,8 @@ public class Line {
 	/**
 	 * Prüft ob ein Spieler eine Mühle mit dem letzten gesetzten/verschobenen
 	 * Spielstein gelegt hat.
-	 * @return true = Mühle wurde gesetzt/verschoben.
-	 * @return false = Keine Mühle wurde gesetzt/verschoben.
+	 * @return true = Mühle wurde gesetzt/verschoben. || false = Keine Mühle wurde gesetzt/verschoben.
+	 * @return 
 	 */
 	public boolean checkMill() {
 		/**
