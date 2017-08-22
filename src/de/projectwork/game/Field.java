@@ -20,7 +20,9 @@ public class Field {
 	 * Es wird ein neues Feld erstellt.
 	 * @param posx wird als % Wert mitgegeben Bsp.: Wert 10 = 10% vom Gameboardscreen.
 	 * @param posy wird als % Wert mitgegeben Bsp.: Wert 45 = 45% vom Gameboardscreen.
-	 * Verwendung: {@link de.projectwork.gui.Gamescreen#createFields()})
+	 * @param Verbindungslinie1 in der sich das Feld befindet.
+	 * @param Verbindungslinie2 in der sich das Feld befindet.
+	 * Verwendung: {@link de.projectwork.gui.Gameboardscreen#createFields()})
 	 */
 	public Field(int posx, int posy, int line1, int line2) {
 		this.posx = posx;
@@ -64,6 +66,10 @@ public class Field {
 		}
 	}
 	
+	public void removeGamestone() {
+		this.whichPlayer = 0;
+	}
+	
 	/**********************************************
 	 * Getter und Setter Methoden der Klasse Field.
 	 **********************************************/
@@ -98,6 +104,14 @@ public class Field {
 		}
 	}
 	
+	public int getLine1() {
+		return line1;
+	}
+	
+	public int getLine2() {
+		return line2;
+	}
+	
 	/**
 	 * Wenn game.getCurrentPlayer() == 1, dann hat Spieler weiﬂ gerade einen
 	 * Spielstein auf ein Feld gelegt.
@@ -113,10 +127,6 @@ public class Field {
 		}
 	}
 	
-	public void removeGamestone() {
-		this.whichPlayer = 0;
-	}
-	
 	/**
 	 * Ein Feld wird auf belegt oder frei gesetzt.
 	 * @param occupied true = belegen || false = frei machen
@@ -124,13 +134,4 @@ public class Field {
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
-	
-	public int getLine1() {
-		return line1;
-	}
-	
-	public int getLine2() {
-		return line2;
-	}
-	
 }

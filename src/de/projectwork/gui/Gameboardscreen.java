@@ -58,7 +58,9 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 		if (game.getGamePhase() == 1) {
 			phase1(e);
 		} else if (game.getGamePhase() == 2) {
-			phase2(e);
+			phase2(e); // TODO Phase2 implementieren.
+		} else if (game.getGamePhase() == 3) {
+			phase3(e); // TODO Phase3 implementieren.
 		}
 		repaint();
 		// TODO gameinfoscreen.repaint();
@@ -120,6 +122,14 @@ public class Gameboardscreen extends JPanel implements MouseListener {
 	 */
 	public void phase2(MouseEvent e) {
 	
+	}
+	
+	/**
+	 * Repräsentiert die 3.Spielphase (Springphase).
+	 * @param e
+	 */
+	public void phase3(MouseEvent e) {
+		
 	}
 	
 	/**

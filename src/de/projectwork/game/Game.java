@@ -51,6 +51,14 @@ public class Game {
 	}
 	
 	/**
+	 * Es wird die aktuelle Spielphase bestimmt.
+	 * @param gamePhase 1 = Setzphase || 2 = Verschiebenphase || 3 = Springphase
+	 */
+	public int getGamePhase() {
+		return gamePhase;
+	}
+	
+	/**
 	 * Setzt den Runden Zähler und überprüft ob Phase 1 (Setzphase)
 	 * abgeschlossen ist.
 	 * @param lRoundCounter
@@ -71,13 +79,5 @@ public class Game {
 	 */
 	public void setGamePhase(int gamePhase) {
 		this.gamePhase = gamePhase;
-	}
-	
-	/**
-	 * Es wird die aktuelle Spielphase bestimmt.
-	 * @param gamePhase 1 = Setzphase || 2 = Verschiebenphase || 3 = Springphase
-	 */
-	public int getGamePhase() {
-		return gamePhase;
 	}
 }
